@@ -11,47 +11,42 @@ Node* add_node(Node* h, int data) {
     n->data = data;
     if (h == NULL) {
         h = n;
-        n->next = h;
+        h->next = n;
     } else {
         n->next = h->next;
         h->next = n;
     }
-    return n; // 새로 추가된 노드를 반환
+    return n;
 }
 
 Node* del_node(Node* h) {
-    if (h == NULL) return NULL;
     Node* n = h->next;
-    if (n == h) { // 리스트에 하나의 노드만 있는 경우
+    if (n == h) {
         free(h);
         return NULL;
     }
     h->next = n->next;
     free(n);
-    return h; // 헤드 노드를 반환
+    return h;
 }
 
 void print(Node* h) {
-    if (h == NULL) return;
-    Node* n = h;
-    do {
-        printf("%d ", n->data);
-        n = n->next;
-    } while (n != h); // 리스트의 처음 노드까지 출력
-    printf("\n");
+    printf("%d, ", h->data);
 }
 
 int main() {
     Node *head = NULL;
     int N, K;
     scanf("%d %d", &N, &K);
-    for (int i = 1; i <= N; i++) head = add_node(head, i);
     
-    for (int i = 0; i < K-1; i++) head = head->next;
-    head = del_node(head);
-    print(head);
-    for (int i = 0; i < K-1; i++) head = head->next;
-    head = del_node(head);
-    print(head);
+    for (int i = 0; i < N; i++) head = add_node(head, i+1);
+    
+    while (head->next != head) {
+        for (int i = 0; i < K-1; i++) head = head->next;
+        printf("%d, ", head->next->data);
+        head = del_node(head);
+    }
+    printf("%d ", head->data);
+    free(head);
     return 0;
 }
