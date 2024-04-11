@@ -29,18 +29,18 @@ Node* del_node(Node* h, int move, int target_number) {
     //터트릴 타겟 출력
     printf("%d ",  target_number);
     /*
-    터트릴 타겟의 점수만큼 이동 == 다음에 터트릴 타겟
+    지금 터트릴 타겟의 점수만큼 다음에 터트릴 타겟으로 이동
     지금 터트릴 타겟의 점수가 양수일 경우 : 오른쪽 이동
     지금 터트릴 타겟의 점수가 음수일 경우 : 왼쪽 이동
     */
     for (int i = 0; i < abs(move); i++) n =  (move > 0) ? n->right : n->left;
     /*
-    다음에 터트릴 타겟이 지금 터트릴 타겟을 경우
+    if(지금 터트릴 타겟 == 다음에 터트릴 타겟)
     지금 터트릴 타겟의 점수가 양수일 경우 : 오른쪽 이동
     지금 터트릴 타겟의 점수가 음수일 경우 : 왼쪽 이동
     */
     if (n->target_number == target_number) n = (move > 0) ? n->right : n->left;  
-    //마지막 타겟의 경우
+    //타겟이 한개 남은 경우
     if (n->right == n && n->left == n) {
         free(n);
         return NULL;
