@@ -2,30 +2,6 @@
 #include <stdlib.h>
 
 typedef struct NODE {
-<<<<<<< HEAD
-    int score;
-    struct NODE *left, *right;
-} Node;
-
-void init(Node * n, int score) {
-    n->score = score;
-    n->left = n->right = NULL;
-}
-Node* add_right_node(Node* h, int score) {
-    Node *n = (Node*)malloc(sizeof(Node));
-    init(n, score);
-    if (h == NULL) {
-        h = n;
-    }
-    else {
-        h->right = n;
-        n->right = h;
-    }
-
-}
-void print(Node *h) {
-    printf("%d", h->score);    
-=======
     int data, target_number;
     struct NODE *left, *right;
 } Node;
