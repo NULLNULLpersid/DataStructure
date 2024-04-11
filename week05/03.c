@@ -51,18 +51,10 @@ Node* del_node(Node* h, int move, int target_number) {
     free(h);
     //다음 타겟 위치 리턴
     return n;
->>>>>>> 34203b015a41d57e47530a7bfddbd4226c8d6805
 }
 
 int main() {
     Node *head = NULL;
-<<<<<<< HEAD
-    int N, score;
-    for (int i = 0; i < N; i++) {
-        scanf("%d", &score);
-        head = add_right_node(head, score);
-    }
-=======
     int number, score;
     //타겟의 개수 입력받음
     scanf("%d", &number);
@@ -81,6 +73,5 @@ int main() {
     헤더를 다음 타겟으로 이동
     */
     while (head != NULL) head = del_node(head, head->data, head->target_number);
->>>>>>> 34203b015a41d57e47530a7bfddbd4226c8d6805
     return 0;
 }
