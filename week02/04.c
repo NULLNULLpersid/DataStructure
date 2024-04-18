@@ -11,7 +11,7 @@ void initialize_screen() {
     }
 }
 void draw_tree(int row, int left, int right) {
-    if (right - left < 3 || row >= MAX_LEVEL) return;
+    if (right - left < 3) return;
     int root = (left + right) / 2;
     screen[row][root] = 'X';
     draw_tree(row + 1, root, right); // 왼쪽 영역
