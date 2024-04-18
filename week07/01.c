@@ -68,10 +68,7 @@ TreeNode *NodeCreate(TreeNode *n, int data) {
     TreeNode *node = (TreeNode*)malloc(sizeof(TreeNode));
     node->data = data;
     node->left = node->right = node->node = NULL;
-    if (n == NULL) {
-        node->node = NULL;
-    }
-    else {
+    if (n != NULL) {
         node->node = n;
     }
     return node;
@@ -89,43 +86,50 @@ TreeNode* NodeLink(TreeNode *n, int r, int l){
         return node;
     }
     else {
-        if (n->node->data == r) {
-            TreeNode *node = NodeCreate(n->node, l);
-            n->node->right = node;
-            return node;
+            return NodeLink(n->node, r, l);
+    }
+}
+
+void TreeNodeCreate(TreeNode *r, int num) {
+    int left, right;
+    TreeNode *rightnode = r, *leftnode = r;
+    for (int i = 1; i < num; i++) {
+        scanf("%d %d", &left, &right);
+        if (rightnode->data == left) {
+            rightnode = NodeLink(rightnode, left, right);
         }
-        else if (n->node->data == l) {
-            TreeNode *node = NodeCreate(n->node, r);
-            n->node->left = node;
-            return node;
+        else if (leftnode->data == right) {
+            leftnode = NodeLink(leftnode, left, right);
+        }
+        else {
+            if (rightnode->node->data == left) {
+                rightnode = NodeLink(rightnode->node, left, right);
+            }
+            else if (leftnode->node->data == right) {
+                leftnode = NodeLink(leftnode->node, left, right);
+            }
         }
     }
 }
 
 int FindNode(TreeNode *r, int i) {
-    if (r) {
+    if (r != NULL) {
         if (r->data == i) return r->node->data;
-        FindNode(r->left, i);
-        FindNode(r->right, i);
+        int left = FindNode(r->left, i);
+        if (left != 0) return left;
+        int right = FindNode(r->right, i);
+        if (right != 0) return right;
     }
+    return 0;
 }
 
 int main(void) {
-    int number, right, left;
-    TreeNode *root = NULL;
-    scanf("%d", &number);
-    root = NodeCreate(root, 1);
-    TreeNode *node = root, *rightnode = root, *leftnode = root;
+    int number;
+    TreeNode *root = NodeCreate(NULL, 1);
 
-    for (int i = 1; i < number; i++) {
-        scanf("%d %d", &right, &left);
-        if (rightnode->data == right) {
-            rightnode = NodeLink(rightnode, right, left);
-        }
-        if (leftnode->data == left) {
-            leftnode = NodeLink(leftnode, left, right);
-        }
-    }
+    scanf("%d", &number);
+    TreeNodeCreate(root, number);
+
     for (int i = 2; i<=number;i++) {
         printf("%d > %d\n", i, FindNode(root, i));
     }
