@@ -267,7 +267,7 @@ TreeNode* CreateTreeNode(TreeNode **nodelist, int num) {
 }
 
 /*
-트리노드를 전반순회
+트리노드를 중위순회
 데이터를 못찾은 경우 NULL 반환
 데이터를 찾은 경우 데이터가 들어 있는 노드의 주소값 반환
 */
