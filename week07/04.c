@@ -13,6 +13,19 @@ TreeNode *CreateNode(int data) {
     return node;
 }
 
+void NodeLink(TreeNode* root) {
+    TreeNode *node1 = CreateNode(4);
+    TreeNode *node2 = CreateNode(20);
+    TreeNode *node3 = CreateNode(1);
+    TreeNode *node4 = CreateNode(16);
+    TreeNode *node5 = CreateNode(25);
+    root->left = node1;
+    root->right = node2;
+    root->left->left = node3;
+    root->right->left = node4;
+    root->right->right = node5;
+}
+
 void PreorderTraversal(TreeNode* root) {
     if (root != NULL) {
         printf("%d ", root->data);
@@ -37,16 +50,8 @@ void PostorderTraversal(TreeNode* root) {
 
 int main(void) {
     TreeNode *root = CreateNode(15);
-    TreeNode *node1 = CreateNode(4);
-    TreeNode *node2 = CreateNode(20);
-    TreeNode *node3 = CreateNode(1);
-    TreeNode *node4 = CreateNode(16);
-    TreeNode *node5 = CreateNode(25);
-    root->left = node1;
-    root->right = node2;
-    root->left->left = node3;
-    root->right->left = node4;
-    root->right->right = node5;
+    
+    NodeLink(root);
 
     InorderTraversal(root);
     printf("\n");
