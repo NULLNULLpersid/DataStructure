@@ -37,7 +37,6 @@ int dequeue(QueueType *q){
 // 선형 큐 상태 출력
 void queue_print(QueueType *q){
     for (int i = 1; i <= MAX_QUEUE_SIZE; i++) {
-        //printf("%d\n", q->front);
         (q->front < i && q->rear >= i) ? printf("%d,", q->arr[i]) : printf(",");
     }
     printf("\n");
