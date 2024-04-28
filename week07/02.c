@@ -99,8 +99,7 @@ n번 반복됨 (행)
 
 // int FindCaseNumber(TreeNode*** nodelist, int num, int r, int c){
 //     DataChange(nodelist, num, r, c);
-//     NodeLink(nodelist, num, r, c, FindPossibleNumber(nodelist, num, r+1));
-
+//     //NodeLink(nodelist, num, r, c, FindPossibleNumber(nodelist, num, r+1));
 
 //     int count = 0;
 //     for (int row = 0; row < num; row++) {
@@ -115,10 +114,6 @@ n번 반복됨 (행)
 //     }
 //     printf("%d", count);
 // }
-
-
-
-
 
 // int FindPossibleCaseNumber(TreeNode*** nodelist, int num) {
 //     int count = 0;
@@ -137,13 +132,122 @@ n번 반복됨 (행)
 
 //     return 0;
 // }
+// #include <stdio.h>
+// #include <stdlib.h>
+
+// //구조체 선언 함수
+// typedef struct TreeNode {
+//     int data;
+//     struct TreeNode *nodelinklist;
+// } TreeNode;
+
+// //한개의 노드 생성 및 초기화 함수
+// TreeNode *CreateNode(int data) {
+//     TreeNode *node = (TreeNode*)malloc(sizeof(TreeNode));
+//     node->data = data;
+//     return node;
+// }
+// //1차원 노드 생성
+// TreeNode **CreateNodeList(int num, int data) {
+//     TreeNode **nodelist = (TreeNode**)malloc(sizeof(TreeNode*) * num);
+//     for (int i = 0; i < num; i++) {
+//         nodelist[i] = CreateNode(data);
+//     }
+//     return nodelist;
+// }
+// //2차원 노드 생성
+// TreeNode ***Create2DNodeList(int num) {
+//     TreeNode ***nodelist = (TreeNode***)malloc(sizeof(TreeNode**) * num);
+//     for (int i = 0; i < num; i++) {
+//         nodelist[i] = CreateNodeList(num, 1);
+//     }
+//     return nodelist;
+// }
+
+// void NodeInit(TreeNode ***nodelist, int num) {
+//     for (int row = 0; row < num; row++) {
+//         for (int col = 0; col < num; col++) {
+//             nodelist[row][col]->data = 1;
+//         }
+//     }
+// }
+
+// void DataChange(TreeNode ***nodelist, int num, int r, int c) {
+//     for (int row = r; row < num; row++) {
+//         for (int col = 0; col < num; col++) {
+//             //행의 경우
+//             if (r == row) {
+//                 nodelist[r][col]->data = 0;
+//             }
+//             //열의 경우
+//             if (c == col) {
+//                 nodelist[row][c]->data = 0;
+//             }
+//             //오른쪽 아래의 경우
+//             if (c+row < num) {
+//                 nodelist[r+row][c+row]->data = 0;
+//             }
+//             //왼쪽 아래의 경우
+//             if (0 <= c+r-row) {
+//                 nodelist[row][c+r-row]->data = 0;
+//             }
+//         }
+//     }
+// }
+
+// void print(TreeNode ***nodelist, int num) {
+//     for (int row = 0; row < num; row++) {
+//         for (int col = 0; col < num; col++) {
+//             //printf("%p : %d, ", nodelist[row][col], nodelist[row][col]->data);
+//             printf("%d, ", nodelist[row][col]->data);
+//         }
+//         printf("\n");
+//     }
+// }
+
+// int FindPossibleNumber(TreeNode ***nodelist, int num, int r) {
+//     int count = 0;
+//     for (int row = r; row < num; row++) {
+//         for (int col = 0; col < num; col++) {
+//             if(nodelist[row][col]->data) count++;
+//         }
+//     }
+//     return count;
+// }
+
+// TreeNode *CreateTreeNode(int num, int data) {
+//     TreeNode *node = CreateNode(data);
+//     node->nodelinklist = (TreeNode*)malloc(sizeof(TreeNode));
+
+// }
+
+// int FindCaseNumber(TreeNode*** nodelist, int num, int r, int c){
+//     DataChange(nodelist, num, r, c);
+//     print(nodelist, num);
+// }
+
+// int FindPossibleCaseNumber(TreeNode*** nodelist, int num) {
+// }
+
+// int main(void) {
+//     int num;
+//     scanf("%d", &num);
+//     TreeNode ***nodelist = Create2DNodeList(num);
+//     for (int i = 0; i < num; i++) {
+//         FindCaseNumber(nodelist, num, 0, i);
+//         printf("\n");
+//         NodeInit(nodelist, num);
+//     }
+//     return 0;
+// }
+
 #include <stdio.h>
-#include <stdlib.h>
+#include <stdio.h>
 
 //구조체 선언 함수
-typedef struct TreeNode {
+typedef struct {
     int data;
-    struct TreeNode *nodelinklist;
+    struct TreeNode **nodelinklist;
 } TreeNode;
 
 //한개의 노드 생성 및 초기화 함수
@@ -162,28 +266,33 @@ TreeNode **CreateNodeList(int num, int data) {
     return nodelist;
 }
 
-//2차원 노드 생성
-TreeNode ***Create2DNodeList(int num) {
-    TreeNode ***nodelist = (TreeNode***)malloc(sizeof(TreeNode**) * num);
-    for (int i = 0; i < num; i++) {
-        nodelist[i] = CreateNodeList(num, 1);
+void DataChange(TreeNode ***nodelist, int num, int r, int c) {
+    for (int row = r; row < num; row++) {
+        for (int col = 0; col < num; col++) {
+            //행의 경우
+            if (r == row) {
+                nodelist[r][col]->data = 0;
+            }
+            //열의 경우
+            if (c == col) {
+                nodelist[row][c]->data = 0;
+            }
+            //오른쪽 아래의 경우
+            if (c+row < num) {
+                nodelist[r+row][c+row]->data = 0;
+            }
+            //왼쪽 아래의 경우
+            if (0 <= c+r-row) {
+                nodelist[row][c+r-row]->data = 0;
+            }
+        }
     }
-    return nodelist;
-}
-
-int FindPossibleNumber(TreeNode ***nodelist, int num, int r) {
-    int count = 0;
-    for (int col = 0; col < num; col++) {
-        if(nodelist[r][col]->data) count++;
-    }
-    return count;
-}
-
-void CreateTreeNode(TreeNode ***nodelist) {
-
 }
 
 int main(void) {
-    
+    int input;
+    scanf("%d", &input);
+    TreeNode **root = CreateNodeList(input, input);
+
     return 0;
 }
