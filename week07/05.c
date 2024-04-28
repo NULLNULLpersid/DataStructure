@@ -1,24 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
+#define SIZE 10
 
 typedef struct TreeNode {
     int data;
     struct TreeNode* left, *right;
 }TreeNode;
 
-int DATA[2] = {0, 0};
-
 TreeNode *CreateNode(int data) {
     TreeNode *node = (TreeNode*)malloc(sizeof(TreeNode));
     node->data = data;
     node->left = node->right = NULL;
     return node;
-}
-
-void print(TreeNode*root, int deep, int b) {
-    if (root != NULL) {
-        printf("%d ", root->data);
-    }
 }
 
 void NodeLink(TreeNode* root) {
@@ -34,12 +27,64 @@ void NodeLink(TreeNode* root) {
     root->right->right = node5;
 }
 
+typedef struct {
+    int data[SIZE];
+    int front, rear;
+}Queue;
+
+void QueueInit (Queue *queue){
+    for (int i = 0; i < SIZE; i++) queue->data[i] = 0;
+	queue->front = queue->rear = -1;
+}
+
+int QueuFull(Queue* queue) {
+	return (queue->rear == SIZE-1) ? 1 : 0;
+}
+
+int QueuEmpty(Queue *queue) {
+	return (queue->front == queue->rear) ? 1 : 0;
+}
+
+void EnQueue(Queue *queue, int data){
+	if (QueuFull(queue)) ;
+	else {
+        queue->data[++(queue->rear)] = data;
+    }
+}
+
+int DeQueue(Queue *queue) {
+	if (QueuEmpty(queue)) ;
+    else {
+        return queue->data[++(queue->front)];
+    }
+}
+
+void CreatLevelorder(TreeNode *root, Queue *queue) {
+    if (root != NULL) {
+        if (root->left != NULL) {
+            EnQueue(queue, root->left->data);
+        }
+        if ((root->right != NULL)) {
+            EnQueue(queue, root->right->data);
+        }
+        CreatLevelorder(root->left, queue);
+        CreatLevelorder(root->right, queue);
+    }
+}
+
+void print(Queue *queue) {
+    while (queue->front != queue->rear) {
+        printf("%d ", DeQueue(queue));
+    }
+}
+
 int main(void) {
     TreeNode *root = CreateNode(15);
-    
     NodeLink(root);
-
-    print(root, 0, 0);
-
+    Queue queue;
+    QueueInit(&queue);
+    CreatLevelorder(root, &queue);
+    printf("%d ", root->data);
+    print(&queue);
     return 0;
 }
