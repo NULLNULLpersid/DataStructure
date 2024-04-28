@@ -32,8 +32,7 @@ int StackEmpty(Stack *stack) {
 void push(Stack *stack, int data) {
     if (StackFull(stack)) return ;
     else {
-        stack->top += 1;
-        stack->data[stack->top] = data;
+        stack->data[++(stack->top)] = data;
     }
 }
 
@@ -41,7 +40,6 @@ void pop(Stack *stack) {
     if (StackEmpty(stack)) return ;
     else {
         stack->top -= 1;
-        stack->data[stack->top];
     }
 }
 
@@ -102,16 +100,14 @@ int QueuEmpty(Queue *queue) {
 void EnQueue(Queue *queue, int data){
 	if (QueuFull(queue)) ;
 	else {
-        queue->rear += 1;
-        queue->data[queue->rear] = data;
+        queue->data[++(queue->rear)] = data;
     }
 }
 
 void DeQueue(Queue *queue) {
 	if (QueuEmpty(queue)) ;
     else {
-        queue->front += 1;
-        queue->data[queue->front];
+        queue->data[++(queue->front)];
     }
 }
 

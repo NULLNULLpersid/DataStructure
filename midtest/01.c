@@ -27,8 +27,7 @@ int Empty(Stack *stack) {
 void push(Stack *stack, char data) {
     if (Full(stack)) return ;
     else {
-        stack->top += 1;
-        stack->data[stack->top] = data;
+        stack->data[++(stack->top)] = data;
     }
 }
 
@@ -51,7 +50,7 @@ void Start(char str[SIZE], int len) {
     for (int i = 0; i < len; i++) {
         temp = ('a' <= str[i] && str[i] <= 'z') ? str[i] - 32 : str[i];
         if (temp != pop(&stack)) {
-            printf("%d%c", count, temp);
+            printf("%d%c", count, temp+32);
             count = 1;
         }
         else {
