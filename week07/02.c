@@ -242,57 +242,116 @@ n번 반복됨 (행)
 // }
 
 #include <stdio.h>
-#include <stdio.h>
+#include <stdlib.h>
 
 //구조체 선언 함수
-typedef struct {
+typedef struct TreeNode{
     int data;
     struct TreeNode **nodelinklist;
 } TreeNode;
 
-//한개의 노드 생성 및 초기화 함수
-TreeNode *CreateNode(int data) {
+//노드 생성 함수
+TreeNode *CreateNode(int data, size_t len) {
     TreeNode *node = (TreeNode*)malloc(sizeof(TreeNode));
     node->data = data;
+    node->nodelinklist = (TreeNode**)malloc(sizeof(TreeNode*) * len);
     return node;
 }
 
-//1차원 노드 생성
-TreeNode **CreateNodeList(int num, int data) {
-    TreeNode **nodelist = (TreeNode**)malloc(sizeof(TreeNode*) * num);
-    for (int i = 0; i < num; i++) {
-        nodelist[i] = CreateNode(data);
+//2차원 배열 생성
+int **Create2DArrList(int num) {
+    int **arr2d = (int**)malloc(sizeof(int*) * num);
+    for (int row = 0; row < num; row++) {
+        arr2d[row] = (int*)malloc(sizeof(int) * num);
+        for (int col = 0; col < num; col++) {
+            arr2d[row][col] = 1;
+        }
     }
-    return nodelist;
+    return arr2d;
 }
 
-void DataChange(TreeNode ***nodelist, int num, int r, int c) {
-    for (int row = r; row < num; row++) {
+void NodeInit(int **arr2d, int num) {
+    for (int row = 0; row < num; row++) {
         for (int col = 0; col < num; col++) {
-            //행의 경우
-            if (r == row) {
-                nodelist[r][col]->data = 0;
-            }
-            //열의 경우
-            if (c == col) {
-                nodelist[row][c]->data = 0;
-            }
-            //오른쪽 아래의 경우
-            if (c+row < num) {
-                nodelist[r+row][c+row]->data = 0;
-            }
-            //왼쪽 아래의 경우
-            if (0 <= c+r-row) {
-                nodelist[row][c+r-row]->data = 0;
-            }
+            arr2d[row][col] = 1;
         }
     }
 }
 
-int main(void) {
-    int input;
-    scanf("%d", &input);
-    TreeNode **root = CreateNodeList(input, input);
+void DataChange(int **arr2d, int num, int r, int c) {
+    for (int row = r; row < num; row++) {
+        for (int col = 0; col < num; col++) {
+            //행의 경우
+            if (r == row) {
+                arr2d[r][col] = 0;
+            }
+            //열의 경우
+            if (c == col) {
+                arr2d[row][c] = 0;
+            }
+            //오른쪽 아래의 경우
+            if (c+row < num) {
+                arr2d[r+row][c+row] = 0;
+            }
+            //왼쪽 아래의 경우
+            if (0 <= c+r-row) {
+                arr2d[row][c+r-row] = 0;
+            }
+        }
+    }
+}
+int FindNodeLen(int **arr2d, int num, int row) {
+    int count = 0;
+    for (int col = 0; col < num; col++) {
+        if (arr2d[row][col]) count++;
+    }
+    return count;
+}
 
+void print(int **arr2d, int num) {
+    for(int row = 0; row < num; row++) {
+        for (int col = 0; col < num; col++) {
+            printf("%d ", arr2d[row][col]);
+        }
+        printf("\n");
+    }
+}
+void CreateTreeNode(TreeNode *root, int **arr2d, int num, int row) {
+    if (root != NULL) {
+        int len = FindNodeLen(arr2d, num, row);
+        if (len > 0) {
+            root->nodelinklist = (TreeNode**)malloc(sizeof(TreeNode*) * len);
+            for (int col = 0; col < num; col++) {
+                if (arr2d[row][col]) {
+                    root->nodelinklist[col] = CreateNode(col, FindNodeLen(arr2d, num, row + 1));
+                    CreateTreeNode(root->nodelinklist[col], arr2d, num, row + 1);
+                    DataChange(arr2d, num, row, col);
+                }
+            }
+        } else {
+            root->nodelinklist = NULL;
+        }
+    }
+}
+
+int Count(TreeNode *root, int len, int num, int deep, int count) {
+    deep++;
+    if (root != NULL && deep != num) {
+        for (int col = 0; col < len; col++) {
+            Count(root->nodelinklist[col], sizeof(root->nodelinklist)/sizeof(TreeNode), num, deep, count);
+        }
+    }
+    else count = 1;
+
+    return count;
+}
+
+int main(void) {
+    int num;
+    scanf("%d", &num);
+    int **arr2d = Create2DArrList(num);
+    TreeNode *root = CreateNode(0, FindNodeLen(arr2d, num, 0));
+    CreateTreeNode(root, arr2d, num, 0);
+    printf("%d", Count(root, FindNodeLen(arr2d, num, 0), num, 0, 0));
     return 0;
 }
