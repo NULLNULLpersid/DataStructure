@@ -28,7 +28,7 @@ void Prim(Graph *graph, int s) {
     distance[s] = 0;
     for (i = 0; i < graph->n; i++) {
         u = MinVertex(graph->n);
-        if (u == -1) return; // If no vertex is found, exit
+        if (u == -1) return;
         selected[u] = 1;
         printf("정점 %d 추가\n", u);
         for (v = 0; v < graph->n; v++) {
