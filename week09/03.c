@@ -162,8 +162,7 @@ element delete_min_heap(HeapType* h) {
     parent = 1;
     child = 2;
     while (child <= h->heap_size) {
-        if ((child < h->heap_size) && (h->heap[child].key > h->heap[child + 1].key))
-            child++;
+        if ((child < h->heap_size) && (h->heap[child].key > h->heap[child + 1].key)) child++;
         if (temp.key <= h->heap[child].key) break;
         h->heap[parent] = h->heap[child];
         parent = child;
@@ -178,11 +177,8 @@ TreeNode* make_tree(TreeNode* left, TreeNode* right) {
     TreeNode* node = (TreeNode*)malloc(sizeof(TreeNode));
     node->left = left;
     node->right = right;
-    if (left && right) {
-        node->weight = left->weight + right->weight;
-    } else {
-        node->weight = 0;
-    }
+    if (left && right) node->weight = left->weight + right->weight;
+    else node->weight = 0;
     return node;
 }
 
@@ -211,9 +207,7 @@ void print_codes(TreeNode* node, int codes[], int top) {
     }
     if (is_leaf(node)) {
         printf("%c: ", node->ch);
-        for (int i = 0; i < top; i++) {
-            printf("%d", codes[i]);
-        }
+        for (int i = 0; i < top; i++) printf("%d", codes[i]);
         printf("\n");
     }
 }
