@@ -10,9 +10,8 @@ int *MakeArr(int n) {
     return arr;
 }
 
-void SortArr(int arr[], int n) {
+int SortArr(int arr[], int n) {
     int t;
-
     for (int i = 0; i < n-1; i++) {
         for (int j = i+1; j < n; j++) {
             if (arr[i] < arr[j]) {
@@ -22,6 +21,7 @@ void SortArr(int arr[], int n) {
             }
         }
     }
+    return arr;
 }
 
 int *DrawArr(int arr[], int n, int k) {
@@ -46,8 +46,7 @@ int main(void) {
     scanf("%d %d", &n, &k);
 
     // 숫자 뽑기
-    int *drawArr = DrawArr(MakeArr(n), n, k);
-    SortArr(drawArr, k);
+    int *drawArr = SortArr(DrawArr(MakeArr(n), n, k), k);
     for (int i = 0; i < k; i++) printf("%d", drawArr[i]);
 
 
